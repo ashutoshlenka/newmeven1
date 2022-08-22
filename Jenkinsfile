@@ -15,7 +15,7 @@ node('built-in')
    stage('ContineousTesting')
    {
        git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
-       sh 'java -jar /home/ubuntu/.jenkins/workspace/scriptedpipeline1/testing.jar'
+       sh 'java -jar /home/ubuntu/.jenkins/workspace/5687/testing.jar'
    }
    stage('ContineousDelivery')
    {
