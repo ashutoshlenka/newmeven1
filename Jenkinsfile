@@ -1,57 +1,25 @@
-pipeline
+node('built-in')
 {
-    agent any
-    stages
-    {
-        stage('ContinuousDownload')
-        {
-            steps
-            {
-                git 'https://github.com/intelliqittrainings/maven.git'
-            }
-        }
-        stage('ContinuousBuild')
-        {
-            steps
-            {
-                sh 'mvn package'
-            }
-        }
-        stage('ContinuousDeployment')
-        {
-            steps
-            {
-               deploy adapters: [tomcat9(credentialsId: 'bfb67f1d-2f4e-430c-bb8d-30584116bd00', path: '', url: 'http://172.31.51.212:9090')], contextPath: 'test1', war: '**/*.war'
-            }
-        }
-        stage('ContinuousTesting')
-        {
-            steps
-            {
-               git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
-               sh 'java -jar /home/ubuntu/.jenkins/workspace/DeclarativePipeline1/testing.jar'
-            }
-        }
-       
-    }
-    
-    post
-    {
-        success
-        {
-            input message: 'Need approval from the DM!', submitter: 'srinivas'
-               deploy adapters: [tomcat9(credentialsId: 'bfb67f1d-2f4e-430c-bb8d-30584116bd00', path: '', url: 'http://172.31.50.204:9090')], contextPath: 'prod1', war: '**/*.war'
-        }
-        failure
-        {
-            mail bcc: '', body: 'Continuous Integration has failed', cc: '', from: '', replyTo: '', subject: 'CI Failed', to: 'selenium.saikrishna@gmail.com'
-        }
-       
-    }
-    
-    
-    
-    
-    
-    
+   stage('ContineousDownload')
+   {
+       git 'https://github.com/intelliqittrainings/maven.git'
+   }
+   stage('ContineousBuild')
+   {
+       sh 'mvn package'
+   }
+   stage('ContineousDeployment')
+   {
+       deploy adapters: [tomcat9(credentialsId: 'f96bf44d-088a-467a-b15b-6f0a7362828e', path: '', url: 'http://172.31.95.137:8080')], contextPath: 'mytestapp', war: '**/*.war'
+   }
+   stage('ContineousTesting')
+   {
+       git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
+       sh 'java -jar /home/ubuntu/.jenkins/workspace/scriptedpipeline1/testing.jar'
+   }
+   stage('ContineousDelivery')
+   {
+       input message: 'Need approval from the DM!', submitter: 'srinivas'
+       deploy adapters: [tomcat9(credentialsId: 'f96bf44d-088a-467a-b15b-6f0a7362828e', path: '', url: 'http://172.31.81.113:8080')], contextPath: 'myprodapp', war: '**/*.war'
+   }
 }
