@@ -20,6 +20,6 @@ node('built-in')
    stage('ContineousDelivery')
    {
        input message: 'Need approval from the DM!', submitter: 'srinivas'
-       deploy adapters: [tomcat9(credentialsId: 'f96bf44d-088a-467a-b15b-6f0a7362828e', path: '', url: 'http://172.31.81.113:8080')], contextPath: 'myprodapp', war: '**/*.war'
+       deploy adapters: [tomcat9(credentialsId: 'f96bf44d-088a-467a-b15b-6f0a7362828e', path: '', url: 'http://172.31.81.113:8080')], contextPath: 'prodapp', war: '**/*.war'
    }
 }
